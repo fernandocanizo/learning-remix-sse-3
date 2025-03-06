@@ -13,6 +13,7 @@
   "dependencies": {
     "@remix-run/node": "^2.16.0",
     "@remix-run/react": "^2.16.0",
+    "@remix-run/route-config": "^2.16.0",
     "@remix-run/serve": "^2.16.0",
     "isbot": "^4.1.0",
     "react": "^18.2.0",
