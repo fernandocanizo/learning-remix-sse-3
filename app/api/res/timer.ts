@@ -6,7 +6,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   return eventStream(request.signal, send => {
     const timer = setInterval(() => {
       send({ event: "iso8601-timedate", data: new Date().toISOString() })
-    }, Math.random() * 1000)
+    }, 1000)
 
     const clear = () => clearInterval(timer)
 
