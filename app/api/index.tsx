@@ -24,11 +24,14 @@ export default function Index() {
           </p>
           <ul>
             <li>
-              <a
-                className={urlStyle}
-                href="/time"
-              >
+              <a className={urlStyle} href="/time">
                 Clock receiving second events from the back-end.
+              </a>
+            </li>
+
+            <li>
+              <a className={urlStyle} href="/growing-list">
+                A list growing indefinitely
               </a>
             </li>
           </ul>
