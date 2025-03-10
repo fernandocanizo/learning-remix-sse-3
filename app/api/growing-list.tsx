@@ -8,7 +8,7 @@ export const loader = async () => {
 
 export default function GrowingList() {
   const loaderData = useLoaderData<typeof loader>()
-  const time = useEventSource("/res/timer", { event: "iso8601-timedate" })
+  const time = useEventSource("/res/rand-timer", { event: "iso8601-rand-time" })
   const [times, setTimes] = useState<string[]>([loaderData.time])
 
   useEffect(() => {
