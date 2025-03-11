@@ -34,6 +34,12 @@ export default function Index() {
                 A list growing indefinitely
               </a>
             </li>
+
+            <li>
+              <a className={urlStyle} href="/progress-bar">
+                A progress bar
+              </a>
+            </li>
           </ul>
         </nav>
       </div>

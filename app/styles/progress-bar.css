@@ -1,0 +1,14 @@
+.progress-container {
+  width: 100px; /* Total width corresponds to max value (1) divided by step size (0.01) */
+  height: 20px;
+  background-color: lightgray;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0; /* Initial progress */
+  background-color: blue;
+  transition: width 0.2s ease; /* Smooth transition */
+}

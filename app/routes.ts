@@ -7,6 +7,7 @@ export default [
 
   route("time", "./api/time.tsx"),
   route("growing-list", "./api/growing-list.tsx"),
+  route("progress-bar", "./api/progress-bar.tsx"),
 
   // Resource routes don't have layout
   route("res/timer", "./api/res/timer.ts"),
