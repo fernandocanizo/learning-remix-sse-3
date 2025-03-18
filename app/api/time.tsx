@@ -10,12 +10,15 @@ export default function Time() {
   const time = useEventSource("/res/timer", { event: "iso8601-timedate" }) ?? loaderData.time
 
   return (
-    <time dateTime={time}>
-      {new Date(time).toLocaleTimeString("en", {
-        minute: "2-digit",
-        second: "2-digit",
-        hour: "2-digit",
-      })}
-    </time>
+    <>
+      <h1>A clock, but receiving the time from the back-end via SSE</h1>
+      <time dateTime={time}>
+        {new Date(time).toLocaleTimeString("en", {
+          minute: "2-digit",
+          second: "2-digit",
+          hour: "2-digit",
+        })}
+      </time>
+    </>
   )
 }

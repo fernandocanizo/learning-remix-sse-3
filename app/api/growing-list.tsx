@@ -18,10 +18,13 @@ export default function GrowingList() {
   }, [time])
 
   return (
-    <ul id="time-list">
-      {times.map((time, index) => (
-        <li key={index}>Time: {time}</li>
-      ))}
-    </ul>
+    <>
+      <h1>A growing list of times coming from the back-end via SSE</h1>
+      <ul id="time-list">
+        {times.map((time, index) => (
+          <li key={index}>Time: {time}</li>
+        ))}
+      </ul>
+    </>
   )
 }
