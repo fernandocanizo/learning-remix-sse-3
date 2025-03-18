@@ -12,4 +12,5 @@ export default [
   // Resource routes don't have layout
   route("res/timer", "./api/res/timer.ts"),
   route("res/rand-timer", "./api/res/rand-timer.ts"),
+  route("res/fake-process", "./api/res/fake-process-for-progress-bar.ts"),
 ] satisfies RouteConfig
