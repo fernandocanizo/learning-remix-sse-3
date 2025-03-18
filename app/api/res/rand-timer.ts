@@ -2,8 +2,8 @@ import type { LoaderFunctionArgs } from "@remix-run/node"
 
 import { eventStream } from "remix-utils/sse/server"
 
-// wait between 3 and 10 seconds
-const randWait = () => (3 + Math.random() * 7) * 1000
+// wait between 1 and 3 seconds
+const randWait = () => (1 + Math.random() * 3) * 1000
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   return eventStream(request.signal, send => {
