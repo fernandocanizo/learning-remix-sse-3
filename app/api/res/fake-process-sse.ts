@@ -1,25 +1,27 @@
 import type { LoaderFunctionArgs } from "@remix-run/node"
 
 import { eventStream } from "remix-utils/sse/server"
+import { pubsub } from "~/pubsub"
 
-export const loader = async ({ request, params }: LoaderFunctionArgs) => {
-  console.debug({params})
-
+export const loader = async ({ request }: LoaderFunctionArgs) => {
   return eventStream(request.signal, send => {
-    const doit = async () =>
+    pubsub.on("fake-process-pubsub", (data) => doit(data))
+
+    const doit = async (data: Record<string, string>) => {
+      console.debug({dataFromPubSub: data})
       send({
-        event: "fake-process",
+        event: "fake-process-sse",
         data: JSON.stringify({
-          processQty: params.processQty,
-          processNumber: params.processNumber,
+          processQty: data.processQty,
+          processNumber: data.processNumber,
           result: {
-            wasProcessSuccessful: params.wasProcessSuccessful,
-            error: params.error,
+            wasProcessSuccessful: data.wasProcessSuccessful,
+            error: data.error,
           }
         })
       })
+    }
     
-    doit()
     return () => {} // No cleanup needed
   })
 }

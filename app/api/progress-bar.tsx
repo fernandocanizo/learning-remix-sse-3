@@ -6,10 +6,11 @@ type FakeProcessResult = {
   error?: string
 }
 
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect } from "react"
 import { useActionData, useLoaderData, useFetcher } from "@remix-run/react"
 import { useEventSource } from "remix-utils/sse/react"
 import { randomUUID } from "node:crypto"
+import { pubsub } from "~/pubsub"
 
 import { decimal, delay, fakeProcessResult } from "~/lib"
 
@@ -39,18 +40,12 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     console.debug(`process: ${processNumber}:`, { data })
     resultList.push(data)
 
-    const queryData = {
-      processQty: String(processQty),
-      processNumber: String(processNumber),
-      wasProcessSuccessful: String(data.wasProcessSuccessful),
+    pubsub.emit("fake-process-pubsub", {
+      processQty,
+      processNumber,
+      wasProcessSuccessful: data.wasProcessSuccessful,
       error: data.error ?? "false",
-    }
-
-    const queryString = new URLSearchParams(queryData).toString()
-    const url = `/res/fake-process?${queryString}`
-
-    // send partial data for the SSE updater
-    // fetch(url) // this breaks everything!
+    })
   }
 
   console.debug("finished")
@@ -66,23 +61,29 @@ export default function ProgressBar() {
   const loaderData = useLoaderData<typeof loader>()
   const actionData = useActionData<typeof action>()
   const fetcher = useFetcher()
-  const sseData = useEventSource("/res/fake-process", { event: "fake-process" })
+  const sseData = useEventSource("/res/fake-process", { event: "fake-process-sse" })
   const [uiState, setUiState] = useState<UiState>("initial")
   const [currentProgress, setCurrentProgress] = useState(loaderData.initialProgress)
-  const maxProgress = 1
   const maxProgressContainerWidth = 100 // defined in CSS
 
+  console.debug("=======================================")
+  console.debug({loaderData})
+  console.debug({actionData})
   console.debug({sseData})
+  console.debug({uiState})
+  console.debug("=======================================")
+
   if (actionData?.finished) {
     setUiState("finished")
   }
 
-  // this was used by the button, but now it has to be done some other way,
-  // cause I removed the button
-  // TODO update with data coming on `sseData`
-  const increaseProgress = useCallback(() => {
-    setCurrentProgress((prev: number) => Math.min(prev, maxProgress))
-  }, [maxProgress])
+  if (sseData) {
+    const sseDataObj = JSON.parse(sseData)
+    const processQty = decimal(sseDataObj.processQty)
+    const processNumber = decimal(sseDataObj.processNumber)
+    const newProgress = (processNumber / processQty) * maxProgressContainerWidth
+    setCurrentProgress(Math.min(newProgress, maxProgressContainerWidth))
+  }
 
   useEffect(() => { // Ensures this code runs only in the browser
     const progressBar = document.getElementById("progress-bar")
