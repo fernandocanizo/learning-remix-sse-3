@@ -77,20 +77,20 @@ export default function ProgressBar() {
     setUiState("finished")
   }
 
-  if (sseData) {
-    const sseDataObj = JSON.parse(sseData)
-    const processQty = decimal(sseDataObj.processQty)
-    const processNumber = decimal(sseDataObj.processNumber)
-    const newProgress = (processNumber / processQty) * maxProgressContainerWidth
-    setCurrentProgress(Math.min(newProgress, maxProgressContainerWidth))
-  }
-
   useEffect(() => { // Ensures this code runs only in the browser
+    if (sseData) {
+      const sseDataObj = JSON.parse(sseData)
+      const processQty = decimal(sseDataObj.processQty)
+      const processNumber = decimal(sseDataObj.processNumber)
+      const newProgress = (processNumber / processQty) * maxProgressContainerWidth
+      setCurrentProgress(Math.min(newProgress, maxProgressContainerWidth))
+    }
+
     const progressBar = document.getElementById("progress-bar")
     if (progressBar) {
       progressBar.style.width = `${currentProgress * maxProgressContainerWidth}px`
     }
-  }, [currentProgress])
+  }, [currentProgress, sseData])
 
   return (
     <>
