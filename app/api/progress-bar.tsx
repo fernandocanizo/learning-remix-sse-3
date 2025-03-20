@@ -23,7 +23,7 @@ export const loader = () => {
 }
 
 export const action = async ({ request }: ActionFunctionArgs) => {
-  console.debug("action")
+  // console.debug("action")
   const formData = await request.formData()
   const processQty = decimal(formData.get("processQty") as string)
   const resultList = []
@@ -37,7 +37,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     if (!data.wasProcessSuccessful) {
       data.error = `Device ID: '${randomUUID()}' failed.`
     }
-    console.debug(`process: ${processNumber}:`, { data })
+    // console.debug(`process: ${processNumber}:`, { data })
     resultList.push(data)
 
     pubsub.emit("fake-process-pubsub", {
@@ -48,7 +48,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     })
   }
 
-  console.debug("finished")
+  // console.debug("finished")
   return {
     resultList,
     finished: true, // TODO I think this is not needed

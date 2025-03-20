@@ -8,7 +8,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     pubsub.on("fake-process-pubsub", (data) => doit(data))
 
     const doit = (data: Record<string, string>) => {
-      console.debug({dataFromPubSub: data})
+      // console.debug({dataFromPubSub: data})
       send({
         event: "fake-process-sse",
         data: JSON.stringify({
