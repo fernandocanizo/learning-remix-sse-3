@@ -7,7 +7,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   return eventStream(request.signal, send => {
     pubsub.on("fake-process-pubsub", (data) => doit(data))
 
-    const doit = async (data: Record<string, string>) => {
+    const doit = (data: Record<string, string>) => {
       console.debug({dataFromPubSub: data})
       send({
         event: "fake-process-sse",
